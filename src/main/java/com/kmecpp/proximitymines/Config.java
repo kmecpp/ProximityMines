@@ -11,7 +11,8 @@ public class Config extends ConfigurationSpec {
 
 	@Override
 	public void populate(IConfigSpec config) {
-		config.setDefault("mines", "target-owner").setComment("Should players trigger their own proximity mines").setValue(false);
+		//		config.setDefault("mines", "target-owner").setComment("Should players trigger their own proximity mines").setValue(false);
+
 		//		root.getNode("mines", "target-owner").setComment("Should players trigger their own proximity mines").setValue(false);
 	}
 

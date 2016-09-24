@@ -8,7 +8,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
-import org.spongepowered.api.event.entity.DisplaceEntityEvent;
+import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.filter.type.Include;
 import org.spongepowered.api.text.Text;
@@ -22,7 +22,6 @@ import com.kmecpp.proximitymines.event.events.MineDestroyEvent;
 import com.kmecpp.proximitymines.event.events.MineExplodeEvent;
 import com.kmecpp.proximitymines.mine.Mine;
 import com.kmecpp.proximitymines.mine.MineType;
-import com.kmecpp.spongecore.SpongeCore;
 import com.kmecpp.spongecore.event.SpongeListener;
 
 public class EventListener extends SpongeListener {
@@ -53,7 +52,7 @@ public class EventListener extends SpongeListener {
 
 				//Place
 				if (e instanceof ChangeBlockEvent.Place) {
-					if (!SpongeCore.postEvent(new MineCreateEvent(player, mine))) {
+					if (!ProximityMines.postEvent(new MineCreateEvent(player, mine))) {
 						player.sendMessage(Text.of(
 								TextColors.GREEN, "You have planted " + article + " ",
 								TextColors.AQUA, mine.getType().getName(),
@@ -65,7 +64,7 @@ public class EventListener extends SpongeListener {
 
 				//Break
 				else if (e instanceof ChangeBlockEvent.Break) {
-					if (!SpongeCore.postEvent(new MineDestroyEvent(player, mine))) {
+					if (!ProximityMines.postEvent(new MineDestroyEvent(player, mine))) {
 						player.sendMessage(Text.of(
 								TextColors.GREEN, "You have diffused " + article + " ",
 								TextColors.AQUA, mine.getType().getName(),
@@ -82,14 +81,17 @@ public class EventListener extends SpongeListener {
 	@Listener
 	public void onPlayerInteract(InteractBlockEvent.Primary e, @First Player player) {
 		e.getInteractionPoint().ifPresent((location) -> {
-			player.getWorld().setBlockType(location.getFloorX(), location.getFloorY(), location.getFloorZ(), BlockTypes.GOLD_BLOCK);
+			player.getWorld().setBlockType(location.getFloorX(), location.getFloorY(), location.getFloorZ(), BlockTypes.GOLD_BLOCK, ProximityMines.asCause());
 		});
 	}
 
 	@Listener
-	public void onPlayerMove(DisplaceEntityEvent.TargetPlayer e) {
-		if (!e.getFromTransform().getLocation().getBlockPosition().equals(e.getToTransform().getLocation().getBlockPosition())) {
-			scanLocation(e.getTargetEntity(), e.getToTransform().getLocation(), 3);
+	public void onPlayerMove(MoveEntityEvent e) {
+		if (e.getTargetEntity() instanceof Player) {
+			Player player = (Player) e.getTargetEntity();
+			if (!e.getFromTransform().getLocation().getBlockPosition().equals(e.getToTransform().getLocation().getBlockPosition())) {
+				scanLocation(player, e.getToTransform().getLocation(), 3);
+			}
 		}
 	}
 
@@ -112,7 +114,7 @@ public class EventListener extends SpongeListener {
 					Location<World> loc = location.add(x, y, z);
 
 					Mine.fromLocation(loc).ifPresent((mine) -> {
-						if (!SpongeCore.postEvent(new MineExplodeEvent(player, mine))) {
+						if (!ProximityMines.postEvent(new MineExplodeEvent(player, mine))) {
 							mine.explode(player);
 						}
 					});
@@ -120,7 +122,7 @@ public class EventListener extends SpongeListener {
 				}
 			}
 		}
-		SpongeCore.log("Time: " + ((System.nanoTime() - start) / 1000) + "µs");
+		ProximityMines.log("Time: " + ((System.nanoTime() - start) / 1000) + "µs");
 		return (System.nanoTime() - start) / 1000;
 	}
 

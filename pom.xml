@@ -26,14 +26,26 @@
 		<dependency>
 			<groupId>org.spongepowered</groupId>
 			<artifactId>spongeapi</artifactId>
-			<version>4.2.0-SNAPSHOT</version>
+			<version>5.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- JLib -->
+		<dependency>
+			<groupId>com.kmecpp</groupId>
+			<artifactId>jlib</artifactId>
+			<version>LATEST</version>
+		</dependency>
 		<!-- CORE LIBRARY -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.kmecpp</groupId> -->
+		<!-- <artifactId>osmium</artifactId> -->
+		<!-- <version>1.0</version> -->
+		<!-- </dependency> -->
+		<!-- SpongeCore -->
 		<dependency>
 			<groupId>com.kmecpp</groupId>
 			<artifactId>spongecore</artifactId>
-			<version>1.0</version>
+			<version>LATEST</version>
 		</dependency>
 	</dependencies>
 
@@ -81,12 +93,6 @@
 				</executions>
 				<configuration>
 					<finalName>${project.name}</finalName>
-					<transformers>
-						<transformer
-							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-							<mainClass>com.kmecpp.spongechat.Launch</mainClass>
-						</transformer>
-					</transformers>
 				</configuration>
 			</plugin>
 		</plugins>

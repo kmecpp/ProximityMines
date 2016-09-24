@@ -11,7 +11,7 @@ public class Tier4Explosion implements MineExplosion {
 
 	@Override
 	public void onExplode(Player target, Mine mine) {
-		target.playSound(SoundTypes.EXPLODE, target.getLocation().getPosition(), 3D, 2D);
+		target.playSound(SoundTypes.ENTITY_GENERIC_EXPLODE, target.getLocation().getPosition(), 3D, 2D);
 		ExplosionUtil.blast(target.getLocation(), 20);
 	}
 

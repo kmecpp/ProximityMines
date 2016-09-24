@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -37,7 +39,7 @@ public class Mine {
 	}
 
 	public void explode(Player target) {
-		location.removeBlock();
+		location.removeBlock(Cause.of(NamedCause.source(target)));
 		getType().getExplosion().onExplode(target, this);
 	}
 

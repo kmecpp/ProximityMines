@@ -15,8 +15,7 @@ public abstract class ExplosionUtil {
 
 	public static void tnt(Location<World> location, float radius) {
 		location.getExtent().triggerExplosion(Explosion.builder()
-				.world(location.getExtent())
-				.origin(location.getPosition())
+				.location(location)
 				.shouldDamageEntities(true)
 				.shouldBreakBlocks(true)
 				.radius(radius)
@@ -41,12 +40,12 @@ public abstract class ExplosionUtil {
 					if (distance < radius) {
 						//Remove center
 						if (distance < radius - 3) {
-							location.getExtent().setBlockType(blockPos, BlockTypes.AIR);
+							location.getExtent().setBlockType(blockPos, BlockTypes.AIR, ProximityMines.asCause());
 						}
 
 						//Jagged edges
 						else if (jagged && RANDOM.nextFloat() > .5 && location.add(0, 1, 0).getBlockType() == BlockTypes.AIR) {
-							location.getExtent().setBlockType(blockPos, BlockTypes.AIR);
+							location.getExtent().setBlockType(blockPos, BlockTypes.AIR, ProximityMines.asCause());
 						}
 					}
 				}

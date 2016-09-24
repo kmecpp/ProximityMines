@@ -16,7 +16,7 @@ public class ProximityMinesCommand extends SpongeCommand {
 
 	public ProximityMinesCommand() {
 		super("proximitymines", "pmines", "pm");
-		setDescription(Text.of("Proximity mines base command"));
+		setDescription("Proximity mines base command");
 		registerArg("info", infoCommand());
 		registerArg("reload", reloadCommand());
 	}
