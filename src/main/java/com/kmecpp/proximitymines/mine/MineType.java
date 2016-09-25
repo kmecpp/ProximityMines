@@ -9,22 +9,22 @@ import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
 
-import com.kmecpp.jlib.StringUtil;
-import com.kmecpp.proximitymines.explosion.Tier1Explosion;
-import com.kmecpp.proximitymines.explosion.Tier2Explosion;
-import com.kmecpp.proximitymines.explosion.Tier3Explosion;
-import com.kmecpp.proximitymines.explosion.Tier4Explosion;
+import com.kmecpp.jlib.utils.StringUtil;
+import com.kmecpp.proximitymines.mine.mines.Tier1Mine;
+import com.kmecpp.proximitymines.mine.mines.Tier2Mine;
+import com.kmecpp.proximitymines.mine.mines.Tier3Mine;
+import com.kmecpp.proximitymines.mine.mines.Tier4Mine;
 
 public enum MineType {
 
-	TIER_ONE(BlockTypes.IRON_BLOCK, new Tier1Explosion()),
-	TIER_TWO(BlockTypes.GOLD_BLOCK, new Tier2Explosion()),
-	TIER_THREE(BlockTypes.DIAMOND_BLOCK, new Tier3Explosion()),
-	TIER_FOUR(BlockTypes.EMERALD_BLOCK, new Tier4Explosion()),
-	SHRAPNEL(BlockTypes.GRAVEL, new Tier1Explosion()),
-	SONIC(BlockTypes.NOTEBLOCK, new Tier1Explosion()),
-	CONTAGIOUS(BlockTypes.MYCELIUM, new Tier1Explosion()),
-	EXOTHERMIC(BlockTypes.LAVA, new Tier1Explosion());
+	TIER_ONE(BlockTypes.IRON_BLOCK, new Tier1Mine()),
+	TIER_TWO(BlockTypes.GOLD_BLOCK, new Tier2Mine()),
+	TIER_THREE(BlockTypes.DIAMOND_BLOCK, new Tier3Mine()),
+	TIER_FOUR(BlockTypes.EMERALD_BLOCK, new Tier4Mine()),
+	SHRAPNEL(BlockTypes.GRAVEL, new Tier1Mine()),
+	SONIC(BlockTypes.NOTEBLOCK, new Tier1Mine()),
+	CONTAGIOUS(BlockTypes.MYCELIUM, new Tier1Mine()),
+	EXOTHERMIC(BlockTypes.LAVA, new Tier1Mine());
 
 	private BlockType type;
 	private MineExplosion explosion;

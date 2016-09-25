@@ -93,6 +93,7 @@
 				</executions>
 				<configuration>
 					<finalName>${project.name}</finalName>
+					<outputFile>Server/mods/${project.name}.jar</outputFile>
 				</configuration>
 			</plugin>
 		</plugins>

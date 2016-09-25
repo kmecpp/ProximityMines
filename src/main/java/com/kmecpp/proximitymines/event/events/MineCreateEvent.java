@@ -4,13 +4,12 @@ import org.spongepowered.api.entity.living.player.Player;
 
 import com.kmecpp.proximitymines.event.AbstractMineEvent;
 import com.kmecpp.proximitymines.event.MineEvent;
-import com.kmecpp.proximitymines.mine.Mine;
+import com.kmecpp.proximitymines.mine.MineBlock;
 
 public class MineCreateEvent extends AbstractMineEvent implements MineEvent.Create {
 
-	public MineCreateEvent(Player creator, Mine mine) {
-		super(mine);
-		this.player = creator;
+	public MineCreateEvent(Player creator, MineBlock mine) {
+		super(creator, mine);
 	}
 
 	@Override

@@ -4,11 +4,11 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
 
-import com.kmecpp.proximitymines.mine.Mine;
+import com.kmecpp.proximitymines.mine.MineBlock;
 
 public interface MineEvent extends Event, Cancellable {
 
-	Mine getMine();
+	MineBlock getMine();
 
 	public interface Create extends MineEvent {
 

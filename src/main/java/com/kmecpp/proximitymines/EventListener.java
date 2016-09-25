@@ -16,15 +16,15 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.kmecpp.jlib.StringUtil;
+import com.kmecpp.jlib.utils.StringUtil;
 import com.kmecpp.proximitymines.event.events.MineCreateEvent;
 import com.kmecpp.proximitymines.event.events.MineDestroyEvent;
 import com.kmecpp.proximitymines.event.events.MineExplodeEvent;
-import com.kmecpp.proximitymines.mine.Mine;
-import com.kmecpp.proximitymines.mine.MineType;
+import com.kmecpp.proximitymines.mine.AbstractMine;
+import com.kmecpp.proximitymines.mine.MineBlock;
 import com.kmecpp.spongecore.event.SpongeListener;
 
-public class EventListener extends SpongeListener {
+public class EventListener implements SpongeListener {
 
 	@Listener
 	@Include({ ChangeBlockEvent.Place.class, ChangeBlockEvent.Break.class })
@@ -40,22 +40,25 @@ public class EventListener extends SpongeListener {
 				return; //No mine present
 			}
 
-			Optional<MineType> mineType = targetBlock.getState().getType() == BlockTypes.TNT
-					? MineType.fromBlock(targetBlock.getLocation().get().add(0, -1, 0).getBlockType())
-					: MineType.fromBlock(targetBlock);
+			Optional<? extends AbstractMine> optionalMine = targetBlock.getState().getType() == BlockTypes.TNT
+					? MineRegistry.getMine(targetBlock.getLocation().get().add(0, -1, 0).getBlockType())
+					: MineRegistry.getMine(targetBlock.getLocation().get().getBlockType());
+
+			//			Optional<MineType> mineType = targetBlock.getState().getType() == BlockTypes.TNT
+			//					? MineType.fromBlock(targetBlock.getLocation().get().add(0, -1, 0).getBlockType())
+			//					: MineType.fromBlock(targetBlock);
 
 			//Mine exists
-			mineType.ifPresent((type) -> {
-
-				Mine mine = new Mine(type, location);
-				String article = StringUtil.vowel(mine.getType().getName()) ? "an" : "a";
+			optionalMine.ifPresent((mine) -> {
+				MineBlock mineBlock = new MineBlock(mine.getBlockType(), location);
+				String article = StringUtil.vowel(mineBlock.getType().getName()) ? "an" : "a";
 
 				//Place
 				if (e instanceof ChangeBlockEvent.Place) {
-					if (!ProximityMines.postEvent(new MineCreateEvent(player, mine))) {
+					if (!ProximityMines.postEvent(new MineCreateEvent(player, mineBlock))) {
 						player.sendMessage(Text.of(
 								TextColors.GREEN, "You have planted " + article + " ",
-								TextColors.AQUA, mine.getType().getName(),
+								TextColors.AQUA, mineBlock.getType().getName(),
 								TextColors.GREEN, " proximity mine!"));
 					} else {
 						e.setCancelled(true);
@@ -64,10 +67,10 @@ public class EventListener extends SpongeListener {
 
 				//Break
 				else if (e instanceof ChangeBlockEvent.Break) {
-					if (!ProximityMines.postEvent(new MineDestroyEvent(player, mine))) {
+					if (!ProximityMines.postEvent(new MineDestroyEvent(player, mineBlock))) {
 						player.sendMessage(Text.of(
 								TextColors.GREEN, "You have diffused " + article + " ",
-								TextColors.AQUA, mine.getType().getName(),
+								TextColors.AQUA, mineBlock.getType().getName(),
 								TextColors.GREEN, " proximity mine!"));
 					} else {
 						e.setCancelled(true);
@@ -81,7 +84,7 @@ public class EventListener extends SpongeListener {
 	@Listener
 	public void onPlayerInteract(InteractBlockEvent.Primary e, @First Player player) {
 		e.getInteractionPoint().ifPresent((location) -> {
-			player.getWorld().setBlockType(location.getFloorX(), location.getFloorY(), location.getFloorZ(), BlockTypes.GOLD_BLOCK, ProximityMines.asCause());
+			//			player.getWorld().setBlockType(location.getFloorX(), location.getFloorY(), location.getFloorZ(), BlockTypes.GOLD_BLOCK, ProximityMines.getPlugin().asCause());
 		});
 	}
 
@@ -112,8 +115,8 @@ public class EventListener extends SpongeListener {
 			for (int z = Math.abs(x) - size; z <= -(Math.abs(x) - size); z++) { //0, -1, -2, -3, -2, -1, 0 || Math.abs(x) - size
 				for (int y = -1; y >= (Math.abs(x) + Math.abs(z)) - size; y--) {
 					Location<World> loc = location.add(x, y, z);
-
-					Mine.fromLocation(loc).ifPresent((mine) -> {
+					
+					MineBlock.fromLocation(loc).ifPresent((mine) -> {
 						if (!ProximityMines.postEvent(new MineExplodeEvent(player, mine))) {
 							mine.explode(player);
 						}

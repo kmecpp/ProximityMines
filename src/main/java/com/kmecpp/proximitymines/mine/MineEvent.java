@@ -6,7 +6,7 @@ import org.spongepowered.api.event.Event;
 
 public interface MineEvent extends Event, Cancellable {
 
-	Mine getMine();
+	MineBlock getMine();
 
 	public interface Create extends MineEvent {
 

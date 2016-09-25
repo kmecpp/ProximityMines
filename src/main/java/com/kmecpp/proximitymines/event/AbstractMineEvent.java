@@ -3,22 +3,24 @@ package com.kmecpp.proximitymines.event;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-import com.kmecpp.proximitymines.mine.Mine;
+import com.kmecpp.proximitymines.mine.MineBlock;
 
-public abstract class AbstractMineEvent implements MineEvent {
+public abstract class AbstractMineEvent extends AbstractEvent implements MineEvent {
 
-	private Mine mine;
+	protected final MineBlock mine;
+	protected final Player player;
+
 	private boolean cancelled;
 
-	protected Player player;
-
-	public AbstractMineEvent(Mine mine) {
+	public AbstractMineEvent(Player player, MineBlock mine) {
 		this.mine = mine;
+		this.player = player;
 	}
 
 	@Override
-	public Mine getMine() {
+	public MineBlock getMine() {
 		return mine;
 	}
 

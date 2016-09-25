@@ -19,7 +19,7 @@ public class ProximityMines extends SpongePlugin {
 	public static final String AUTHOR = "kmecpp";
 
 	public ProximityMines() {
-		setConfigurationSpec(new Config());
+		setConfig(Config.class);
 	}
 
 	/*
@@ -31,6 +31,8 @@ public class ProximityMines extends SpongePlugin {
 
 	@Override
 	public void init() {
+		new CustomMine().register();
+
 		//Commands
 		ProximityMines.registerCommand(new ProximityMinesCommand());
 

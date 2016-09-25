@@ -1,19 +1,25 @@
 package com.kmecpp.proximitymines;
 
-import com.kmecpp.spongecore.ConfigurationSpec;
+import com.kmecpp.spongecore.config.Configurable;
+import com.kmecpp.spongecore.config.SpongeConfig;
 
-public class Config extends ConfigurationSpec {
+@SpongeConfig(header = "ProximityMines configuration file")
+public enum Config {
 
-	@Override
-	public String getHeader() {
-		return "Configuration file for " + ProximityMines.NAME + ". Author: " + ProximityMines.AUTHOR;
-	}
+	@Configurable(key = "mine-range", def = "4",
+			comment = "Detection radius for proximity mines")
+	MINE_RANGE;
 
-	@Override
-	public void populate(IConfigSpec config) {
-		//		config.setDefault("mines", "target-owner").setComment("Should players trigger their own proximity mines").setValue(false);
-
-		//		root.getNode("mines", "target-owner").setComment("Should players trigger their own proximity mines").setValue(false);
-	}
+	//	@Override
+	//	public String getHeader() {
+	//		return "Configuration file for " + ProximityMines.NAME + ". Author: " + ProximityMines.AUTHOR;
+	//	}
+	//
+	//	@Override
+	//	public void populate(IConfigSpec config) {
+	//		config.setDefault("mines", "target-owner").setComment("Should players trigger their own proximity mines").setValue(false);
+	//
+	//		root.getNode("mines", "target-owner").setComment("Should players trigger their own proximity mines").setValue(false);
+	//	}
 
 }

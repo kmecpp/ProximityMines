@@ -5,7 +5,6 @@ import java.util.Random;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.explosion.Explosion;
 
 import com.flowpowered.math.vector.Vector3i;
 
@@ -14,12 +13,12 @@ public abstract class ExplosionUtil {
 	private static final Random RANDOM = new Random();
 
 	public static void tnt(Location<World> location, float radius) {
-		location.getExtent().triggerExplosion(Explosion.builder()
-				.location(location)
-				.shouldDamageEntities(true)
-				.shouldBreakBlocks(true)
-				.radius(radius)
-				.build());
+		//		location.getExtent().triggerExplosion(Explosion.builder()
+		//				.location(location)
+		//				.shouldDamageEntities(true)
+		//				.shouldBreakBlocks(true)
+		//				.radius(radius)
+		//				.build(), ProximityMines.getPlugin().asCause());
 	}
 
 	public static void blast(Location<World> location, int radius) {
@@ -40,12 +39,12 @@ public abstract class ExplosionUtil {
 					if (distance < radius) {
 						//Remove center
 						if (distance < radius - 3) {
-							location.getExtent().setBlockType(blockPos, BlockTypes.AIR, ProximityMines.asCause());
+							location.getExtent().setBlockType(blockPos, BlockTypes.AIR, ProximityMines.getPlugin().asCause());
 						}
 
 						//Jagged edges
 						else if (jagged && RANDOM.nextFloat() > .5 && location.add(0, 1, 0).getBlockType() == BlockTypes.AIR) {
-							location.getExtent().setBlockType(blockPos, BlockTypes.AIR, ProximityMines.asCause());
+							location.getExtent().setBlockType(blockPos, BlockTypes.AIR, ProximityMines.getPlugin().asCause());
 						}
 					}
 				}

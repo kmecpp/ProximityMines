@@ -2,27 +2,29 @@ package com.kmecpp.proximitymines.mine;
 
 import java.util.Optional;
 
+import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
+import com.kmecpp.proximitymines.MineRegistry;
+import com.kmecpp.proximitymines.ProximityMines;
 
-public class Mine {
+public class MineBlock {
 
-	private MineType type;
+	private BlockType type;
 	private Location<World> location;
 
-	public Mine(MineType type, Location<World> location) {
+	public MineBlock(BlockType type, Location<World> location) {
 		this.type = type;
 		this.location = location;
 	}
 
-	public MineType getType() {
+	public BlockType getType() {
 		return type;
 	}
 
@@ -39,8 +41,8 @@ public class Mine {
 	}
 
 	public void explode(Player target) {
-		location.removeBlock(Cause.of(NamedCause.source(target)));
-		getType().getExplosion().onExplode(target, this);
+		location.removeBlock(ProximityMines.getPlugin().asCause(NamedCause.of("target", target)));
+		MineRegistry.getMine(type).get().onExplode(target, this);
 	}
 
 	/**
@@ -54,12 +56,16 @@ public class Mine {
 	 * @return a mine instance representing the one at the given location,
 	 *         assuming it exists
 	 */
-	public static Optional<Mine> fromLocation(Location<World> location) {
+	public static Optional<MineBlock> fromLocation(Location<World> location) {
 		if (location.getBlockType() == BlockTypes.TNT) {
-			Optional<MineType> mineType = MineType.fromBlock(location.add(0, -1, 0).getBlockType());
-			if (mineType.isPresent()) {
-				return Optional.of(new Mine(mineType.get(), location));
+			Optional<? extends AbstractMine> mine = MineRegistry.getMine(location.add(0, -1, 0).getBlockType());
+			if (mine.isPresent()) {
+				return Optional.of(new MineBlock(mine.get().getBlockType(), location));
 			}
+			//			Optional<MineType> mineType = MineType.fromBlock(location.add(0, -1, 0).getBlockType());
+			//			if (mineType.isPresent()) {
+			//				return Optional.of(new MineBlock(mineType.get(), location));
+			//			}
 		}
 		return Optional.empty();
 	}
