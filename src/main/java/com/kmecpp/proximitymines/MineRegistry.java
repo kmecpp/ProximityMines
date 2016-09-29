@@ -10,7 +10,6 @@ import com.kmecpp.proximitymines.mine.MineExplosion;
 
 public class MineRegistry {
 
-	//	private static HashMap<BlockType, MineExplosion> customExplosives = new HashMap<>();
 	private static HashMap<BlockType, AbstractMine> mines = new HashMap<>();
 
 	/**
@@ -63,21 +62,6 @@ public class MineRegistry {
 		return mine != null
 				? Optional.of(mine)
 				: Optional.empty();
-
-		//		//Search through custom explosions
-		//		MineExplosion explosion = mines.get(type);
-		//
-		//		//Search through default mines
-		//		if (explosion == null) {
-		//			Optional<MineType> mineType = MineType.fromBlock(type);
-		//			if (mineType.isPresent()) {
-		//				explosion = mineType.get().getExplosion();
-		//			}
-		//		}
-		//
-		//		return explosion != null
-		//				? Optional.of(explosion)
-		//				: Optional.empty();
 	}
 
 	/**

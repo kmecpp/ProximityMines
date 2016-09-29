@@ -6,6 +6,8 @@ import com.kmecpp.proximitymines.MineRegistry;
 
 public abstract class AbstractMine implements MineExplosion {
 
+	public abstract String getName();
+
 	public abstract BlockType getBlockType();
 
 	public final void register() {

@@ -3,6 +3,15 @@ package com.kmecpp.proximitymines;
 import org.spongepowered.api.plugin.Plugin;
 
 import com.kmecpp.proximitymines.command.ProximityMinesCommand;
+import com.kmecpp.proximitymines.mine.mines.ContagiousMine;
+import com.kmecpp.proximitymines.mine.mines.EndothermicMine;
+import com.kmecpp.proximitymines.mine.mines.ExothermicMine;
+import com.kmecpp.proximitymines.mine.mines.ShrapnelMine;
+import com.kmecpp.proximitymines.mine.mines.SonicMine;
+import com.kmecpp.proximitymines.mine.mines.Tier1Mine;
+import com.kmecpp.proximitymines.mine.mines.Tier2Mine;
+import com.kmecpp.proximitymines.mine.mines.Tier3Mine;
+import com.kmecpp.proximitymines.mine.mines.Tier4Mine;
 import com.kmecpp.spongecore.SpongePlugin;
 
 @Plugin(id = ProximityMines.ID,
@@ -30,9 +39,20 @@ public class ProximityMines extends SpongePlugin {
 	 */
 
 	@Override
-	public void init() {
-		new CustomMine().register();
+	protected void preInit() {
+		new Tier1Mine().register();
+		new Tier2Mine().register();
+		new Tier3Mine().register();
+		new Tier4Mine().register();
+		new SonicMine().register();
+		new ShrapnelMine().register();
+		new ContagiousMine().register();
+		new ExothermicMine().register();
+		new EndothermicMine().register();
+	}
 
+	@Override
+	public void init() {
 		//Commands
 		ProximityMines.registerCommand(new ProximityMinesCommand());
 
