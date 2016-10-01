@@ -6,7 +6,6 @@ import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -42,9 +41,7 @@ public class MineBlock {
 	}
 
 	public void explode(Player target) {
-		Cause cause = ProximityMines.getPlugin().asCause(
-				NamedCause.of("mine", this),
-				NamedCause.of("target", target));
+		Cause cause = Cause.source(ProximityMines.getPlugin()).named("mine", this).named("target", target).build();
 		location.removeBlock(cause); //TNT
 		location.add(0, -1, 0).removeBlock(cause); //Type block
 		MineRegistry.getMine(type).get().onExplode(target, this, cause);

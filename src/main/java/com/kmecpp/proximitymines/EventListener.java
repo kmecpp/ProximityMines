@@ -7,13 +7,11 @@ import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
-import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.filter.type.Include;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -82,10 +80,10 @@ public class EventListener implements SpongeListener {
 		});
 	}
 
-	@Listener
-	public void onPlayerInteract(InteractBlockEvent.Primary e, @First Player player) {
-		ExplosionUtil.shrapnel(BlockRay.from(player).blockLimit(20).build().end().get().getLocation(), 10, 100, ProximityMines.getPlugin().asCause());
-	}
+	//	@Listener
+	//	public void onPlayerInteract(InteractBlockEvent.Primary e, @First Player player) {
+	//		ExplosionUtil.shrapnel(BlockRay.from(player).blockLimit(20).build().end().get().getLocation(), 10, 100, ProximityMines.getPlugin().asCause());
+	//	}
 
 	@Listener
 	public void onPlayerMove(MoveEntityEvent e) {
