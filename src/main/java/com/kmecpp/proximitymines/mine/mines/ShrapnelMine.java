@@ -23,8 +23,8 @@ public class ShrapnelMine extends AbstractMine {
 
 	@Override
 	public void onExplode(Player target, MineBlock mine, Cause cause) {
-		ExplosionUtil.blast(target.getLocation(), 5, cause);
-		ExplosionUtil.shrapnel(target.getLocation(), 10, 50, cause);
+		ExplosionUtil.tnt(target.getLocation(), 5, cause);
+		ExplosionUtil.shrapnel(target.getLocation(), 10, 100, cause);
 	}
 
 }

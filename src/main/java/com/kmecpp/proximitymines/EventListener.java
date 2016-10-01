@@ -1,12 +1,9 @@
 package com.kmecpp.proximitymines;
 
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockTypes;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
@@ -16,10 +13,10 @@ import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.filter.type.Include;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.flowpowered.math.vector.Vector3d;
 import com.kmecpp.jlib.utils.StringUtil;
 import com.kmecpp.proximitymines.event.events.MineCreateEvent;
 import com.kmecpp.proximitymines.event.events.MineDestroyEvent;
@@ -87,28 +84,8 @@ public class EventListener implements SpongeListener {
 
 	@Listener
 	public void onPlayerInteract(InteractBlockEvent.Primary e, @First Player player) {
-		ThreadLocalRandom RAND = ThreadLocalRandom.current();
-		World world = player.getWorld();
-		Entity arrow = world.createEntity(EntityTypes.TIPPED_ARROW, player.getLocation().getPosition().add(1, 0, 0));
-		arrow.setVelocity(new Vector3d(
-				(RAND.nextBoolean() ? 1 : -1) * RAND.nextFloat(),
-				RAND.nextFloat(),
-				(RAND.nextBoolean() ? 1 : -1) * RAND.nextFloat()));
-		Vector3d vec = arrow.getVelocity().normalize();
-		arrow.setRotation(new Vector3d(Math.asin(-vec.getY()), Math.atan2(vec.getX(), vec.getZ()), 0D));
-		world.spawnEntity(arrow, ProximityMines.getPlugin().asCause());
-
-		//		System.out.println("Shrapnel!");
-		//		ExplosionUtil.shrapnel(new Location<World>(player.getWorld(), e.getTargetBlock().getPosition()),
-		//				10, 10, ProximityMines.getPlugin().asCause(NamedCause.of("player", player)));
+		ExplosionUtil.shrapnel(BlockRay.from(player).blockLimit(20).build().end().get().getLocation(), 10, 100, ProximityMines.getPlugin().asCause());
 	}
-
-	//	@Listener
-	//	public void onPlayerInteract(InteractBlockEvent.Primary e, @First Player player) {
-	//		e.getInteractionPoint().ifPresent((location) -> {
-	//			player.getWorld().setBlockType(location.getFloorX(), location.getFloorY(), location.getFloorZ(), BlockTypes.GOLD_BLOCK, ProximityMines.getPlugin().asCause());
-	//		});
-	//	}
 
 	@Listener
 	public void onPlayerMove(MoveEntityEvent e) {

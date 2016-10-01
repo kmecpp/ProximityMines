@@ -42,7 +42,9 @@ public class MineBlock {
 	}
 
 	public void explode(Player target) {
-		Cause cause = ProximityMines.getPlugin().asCause(NamedCause.of("target", target));
+		Cause cause = ProximityMines.getPlugin().asCause(
+				NamedCause.of("mine", this),
+				NamedCause.of("target", target));
 		location.removeBlock(cause); //TNT
 		location.add(0, -1, 0).removeBlock(cause); //Type block
 		MineRegistry.getMine(type).get().onExplode(target, this, cause);

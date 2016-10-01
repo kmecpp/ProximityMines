@@ -18,8 +18,9 @@ public class MineRegistry {
 	 * an explosion, the previous will be overwritten
 	 * 
 	 * @param type
-	 *            the block type for associate
+	 *            the block type to associate with the given mine
 	 * @param mine
+	 *            the mine to register
 	 */
 	public static void register(BlockType type, AbstractMine mine) {
 		mines.put(type, mine);
