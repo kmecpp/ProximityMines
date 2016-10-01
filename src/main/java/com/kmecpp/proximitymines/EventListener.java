@@ -92,7 +92,7 @@ public class EventListener implements SpongeListener {
 		if (e.getTargetEntity() instanceof Player) {
 			Player player = (Player) e.getTargetEntity();
 			if (!e.getFromTransform().getLocation().getBlockPosition().equals(e.getToTransform().getLocation().getBlockPosition())) {
-				scanLocation(player, e.getToTransform().getLocation(), 3);
+				scanLocation(player, e.getToTransform().getLocation(), Config.MINE_RANGE.getValue().asInt());
 			}
 		}
 	}
@@ -124,7 +124,7 @@ public class EventListener implements SpongeListener {
 				}
 			}
 		}
-		ProximityMines.log("Time: " + ((System.nanoTime() - start) / 1000) + "µs");
+		//		ProximityMines.log("Time: " + ((System.nanoTime() - start) / 1000) + "µs");
 		return (System.nanoTime() - start) / 1000;
 	}
 
