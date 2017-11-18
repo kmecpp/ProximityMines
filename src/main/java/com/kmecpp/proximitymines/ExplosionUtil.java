@@ -25,7 +25,7 @@ public abstract class ExplosionUtil {
 				1D); //Pitch
 	}
 
-	public static void tnt(Location<World> location, float radius, Cause cause) {
+	public static void tnt(Location<World> location, float radius) {
 		playSound(location);
 		location.getExtent().triggerExplosion(Explosion.builder()
 				.location(location)
@@ -33,10 +33,10 @@ public abstract class ExplosionUtil {
 				.shouldPlaySmoke(true)
 				.shouldBreakBlocks(true)
 				.radius(radius)
-				.build(), cause);
+				.build());
 	}
 
-	public static void shrapnel(Location<World> location, int radius, int count, Cause cause) {
+	public static void shrapnel(Location<World> location, int radius, int count) {
 		World world = location.getExtent();
 		for (int i = 0; i < count; i++) {
 			Entity arrow = world.createEntity(EntityTypes.TIPPED_ARROW, location.getPosition());
@@ -46,7 +46,7 @@ public abstract class ExplosionUtil {
 					(RAND.nextBoolean() ? 1 : -1) * RAND.nextFloat(),
 					RAND.nextFloat(),
 					(RAND.nextBoolean() ? 1 : -1) * RAND.nextFloat()).mul(1.5));
-			world.spawnEntity(arrow, cause);
+			world.spawnEntity(arrow);
 		}
 
 		//		float amountToRotate = 360 / radius;
@@ -85,21 +85,21 @@ public abstract class ExplosionUtil {
 
 	}
 
-	public static void blast(Location<World> location, int radius, Cause cause) {
+	public static void blast(Location<World> location, int radius) {
 		playSound(location);
-		sphere(location, radius, true, cause);
+		sphere(location, radius, true);
 		//		ellipse(location, radius, (int) (radius / 1.2), true, cause);
 	}
 
-	public static void sphere(Location<World> location, int radius, boolean jagged, Cause cause) {
+	public static void sphere(Location<World> location, int radius, boolean jagged) {
 		for (int x = -radius; x <= radius; x++) {
 			for (int z = -radius; z <= radius; z++) {
 				for (int y = -radius; y <= radius; y++) {
 					Location<World> point = location.add(x, y, z);
 					if (point.getPosition().distance(location.getPosition()) <= radius) {
-						point.setBlockType(BlockTypes.AIR, cause);
+						point.setBlockType(BlockTypes.AIR);
 						if (jagged && RAND.nextFloat() < 0.50) {
-							point.add(0, Math.signum(y), 0).setBlockType(BlockTypes.AIR, cause);
+							point.add(0, Math.signum(y), 0).setBlockType(BlockTypes.AIR);
 						}
 					}
 				}
@@ -121,7 +121,7 @@ public abstract class ExplosionUtil {
 							.sub(location.getBlockPosition())
 							.div(new Vector3i(radiusX, radiusY, radiusZ))
 							.lengthSquared() <= 1) {
-						point.setBlockType(BlockTypes.AIR, cause);
+						point.setBlockType(BlockTypes.AIR);
 						//						if (jagged && RAND.nextFloat() < 0.40) {
 						//							point.add(0, Math.signum(y), 0).setBlockType(BlockTypes.AIR, cause);
 						//						}

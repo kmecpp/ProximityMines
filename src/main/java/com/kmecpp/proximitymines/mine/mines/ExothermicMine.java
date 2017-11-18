@@ -3,7 +3,6 @@ package com.kmecpp.proximitymines.mine.mines;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
 
 import com.kmecpp.proximitymines.mine.AbstractMine;
 import com.kmecpp.proximitymines.mine.ExplosionThread;
@@ -22,7 +21,7 @@ public class ExothermicMine extends AbstractMine {
 	}
 
 	@Override
-	public void onExplode(Player target, MineBlock mine, Cause cause) {
+	public void onExplode(Player target, MineBlock mine) {
 		//		int radius = 10;
 		//		for (int theta = 0; theta < 360; theta++) {
 		//			target.getLocation().add(radius * Math.cos(theta), 0, radius * Math.sin(theta)).setBlockType(BlockTypes.DIAMOND_BLOCK, cause);

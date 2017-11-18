@@ -2,6 +2,7 @@ package com.kmecpp.proximitymines.event;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.event.impl.AbstractEvent;
 
 import com.kmecpp.proximitymines.ProximityMines;
@@ -26,9 +27,7 @@ public abstract class AbstractMineEvent extends AbstractEvent implements MineEve
 
 	@Override
 	public Cause getCause() {
-		return Cause.source(ProximityMines.getPlugin())
-				.named("player", player)
-				.build();
+		return Cause.of(EventContext.empty(), ProximityMines.getPlugin(), player);
 	}
 
 	@Override
