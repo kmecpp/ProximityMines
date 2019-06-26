@@ -1,7 +1,5 @@
-/target/
-/.settings/
-.classpath
+bin/
+.gradle/
+.settings/
 .project
-*.bat
-/bin/
-/Server/
+.classpath
